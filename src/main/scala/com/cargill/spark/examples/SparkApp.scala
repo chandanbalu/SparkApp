@@ -14,15 +14,16 @@ object SimpleApp {
   /* SimpleApp.scala */
   def main(args: Array[String]) {
 
-    val logFile = "C:\\Users\\c795701\\Desktop\\README.md" // Should be some file on your system
-
     val spark = SparkSession
       .builder
       .appName("Simple Application")
       .master("local")
       .getOrCreate()
 
-    val logData = spark.read.textFile(logFile).cache()
+    val resourcePath = "src/main/resources/titanic.csv"
+    //val fileName = new FileSystem().getFilePath("README.md")
+
+    val logData = spark.read.textFile(resourcePath).cache()
 
     val numAs = logData.filter(line => line.contains("a")).count()
 
@@ -31,5 +32,6 @@ object SimpleApp {
     println(s"Lines with a: $numAs, Lines with b: $numBs")
 
     spark.stop()
+
   }
 }
